@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cerámica ZA — Espacio de Arte y Cerámica</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <style>
+    .stats-strip { background: var(--brown); padding: 40px 0; }
+    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); text-align: center; }
+    .stat-item { padding: 0 24px; border-right: 1px solid rgba(255,255,255,.12); }
+    .stat-item:last-child { border-right: none; }
+    .stat-num { font-family: var(--ff-display); font-size: 2.8rem; font-weight: 600; color: var(--terracotta-l); line-height: 1; display: block; }
+    .stat-label { font-size: .73rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-top: 8px; display: block; }
+
+    .testimonials { padding: 100px 0; background: var(--cream); }
+    .testi-header { text-align: center; margin-bottom: 52px; }
+    .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
+    .testi-card { background: var(--white); border-radius: 20px; padding: 32px; box-shadow: var(--shadow-card); transition: transform var(--transition), box-shadow var(--transition); }
+    .testi-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+    .testi-stars { color: var(--terracotta); font-size: .85rem; margin-bottom: 18px; letter-spacing: 2px; }
+    .testi-text { font-family: var(--ff-display); font-size: 1.1rem; font-style: italic; color: var(--brown); line-height: 1.75; margin-bottom: 24px; }
+    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-avatar { width: 44px; height: 44px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 2px solid var(--sand); background: var(--sand-l); display: flex; align-items: center; justify-content: center; color: var(--terracotta); font-size: 1.1rem; }
+    .testi-name { font-size: .85rem; font-weight: 500; color: var(--brown); }
+    .testi-role { font-size: .73rem; color: var(--text-light); font-weight: 300; }
+
+    .events-footer { text-align: center; margin-top: 48px; }
+    .btn-all-events { display: inline-flex; align-items: center; gap: 10px; padding: 14px 36px; border: 2px solid var(--terracotta); color: var(--terracotta); border-radius: 50px; font-size: .88rem; font-weight: 500; letter-spacing: .04em; transition: all var(--transition); }
+    .btn-all-events:hover { background: var(--terracotta); color: var(--white); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,98,63,.3); }
+
+    @media (max-width: 960px) {
+      .stats-grid { grid-template-columns: repeat(2,1fr); gap: 24px; }
+      .stat-item { border-right: none; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,.12); }
+      .stat-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.12); }
+      .stat-item:nth-child(3), .stat-item:nth-child(4) { border-bottom: none; }
+      .testi-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+    }
+
+    /* Carrusel */
+    .carousel { position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 20px; }
+    .carousel-container { display: flex; transition: transform 0.5s ease; height: 100%; }
+    .carousel-img { width: 100%; height: 100%; object-fit: cover; flex-shrink: 0; opacity: 0; transition: opacity 0.5s ease; }
+    .carousel-img.active { opacity: 1; }
+    .carousel-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,.8); border: none; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 18px; transition: background 0.3s; z-index: 10; }
+    .carousel-btn:hover { background: var(--white); }
+    .prev { left: 10px; }
+    .next { right: 10px; }
+    .carousel-indicators { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); display: flex; gap: 10px; }
+    .indicator { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,.5); cursor: pointer; transition: background 0.3s; }
+    .indicator.active { background: var(--white); }
+
+    /* Site title */
+    .site-title { font-family: var(--ff-display); font-size: 2.5rem; font-weight: 400; color: var(--brown); text-align: center; margin-bottom: 10px; }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <img src="logo.jpg" alt="Cerámica ZA Logo" class="logo-img" />
+        <span class="logo-text">Cerámica<em>ZA</em></span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="#inicio">Inicio</a>
+        <a href="#nosotros">Sobre Nosotros</a>
+        <a href="eventos.html">Eventos</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+      <a href="https://wa.me/5492914682284?text=Hola%2C%20quiero%20reservar%20un%20lugar%20en%20Cer%C3%A1mica%20ZA%20%F0%9F%8F%BA" target="_blank" class="btn-reservar">Reservar lugar</a>
+      <button class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-bg"><div class="hero-texture"></div></div>
+    <div class="hero-content reveal">      <h1 class="site-title">Cerámica<em>ZA</em></h1>      <span class="hero-tag">Taller de cerámica &amp; arte artesanal ♡</span>
+      <h1 class="hero-title">Creá con<br /><em>tus manos</em></h1>
+      <p class="hero-sub">Un lugar donde el barro toma forma y las ideas cobran vida.<br />Cursos, talleres y experiencias únicas para todos los niveles.</p>
+      <div class="hero-ctas">
+
+        <a href="https://wa.me/5492914682284?text=Hola%2C%20quiero%20reservar%20un%20lugar%20%F0%9F%8F%BA" target="_blank" class="btn-secondary">Reservar lugar</a>
+      </div>
+    </div>
+    <div class="hero-shapes">
+      <div class="shape shape-1"></div>
+      <div class="shape shape-2"></div>
+      <div class="shape shape-3"></div>
+    </div>
+    <div class="hero-scroll-hint">
+      <span>Deslizá</span>
+      <i class="fa-solid fa-chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <div class="stats-strip">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item reveal"><span class="stat-num">+5</span><span class="stat-label">Años de experiencia</span></div>
+        <div class="stat-item reveal"><span class="stat-num">300+</span><span class="stat-label">Alumnas formadas</span></div>
+        <div class="stat-item reveal"><span class="stat-num">12</span><span class="stat-label">Cursos activos</span></div>
+        <div class="stat-item reveal"><span class="stat-num">100%</span><span class="stat-label">Artesanal</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SOBRE NOSOTROS -->
+  <section class="about" id="nosotros">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-img-wrap reveal">
+          <div class="about-img-inner">
+            <!-- CARRUSEL DE FOTOS -->
+            <div class="carousel">
+              <div class="carousel-container">
+              <img src="quienes somos/a9b1f2ef3be365dac4979be1329f9903.jpg" alt="Foto del taller 1" class="carousel-img active">
+              <img src="quienes somos/ceramica-artesanal.jpg" alt="Foto del taller 2" class="carousel-img">
+              <img src="quienes somos/Home-decoration-11oz-ceramic-candle-vessels_5.jpg.webp" alt="Foto del taller 3" class="carousel-img">
+              </div>
+              <button class="carousel-btn prev" aria-label="Anterior">&lt;</button>
+              <button class="carousel-btn next" aria-label="Siguiente">&gt;</button>
+              <div class="carousel-indicators">
+                <span class="indicator active" data-slide="0"></span>
+                <span class="indicator" data-slide="1"></span>
+                <span class="indicator" data-slide="2"></span>
+              </div>
+            </div>
+          </div>
+          <div class="about-img-badge">
+            <span>+5 años</span>
+            <small>de experiencia</small>
+          </div>
+        </div>
+        <div class="about-text reveal">
+          <span class="section-tag">Quiénes somos</span>
+          <h2>Un espacio donde el arte<br /><em>toma forma</em></h2>
+          <p>Cerámica ZA nació del amor por lo artesanal y la necesidad de crear espacios de encuentro donde las personas puedan desconectarse del ruido cotidiano y conectarse con algo más profundo: sus manos, los materiales, el presente.</p>
+          <p>Ofrecemos cursos para principiantes y avanzadas, talleres de un día, y eventos especiales donde la cerámica es el pretexto para compartir, aprender y crear algo único.</p>
+          <div class="about-pillars">
+            <div class="pillar"><i class="fa-solid fa-hands"></i><span>Artesanal</span></div>
+            <div class="pillar"><i class="fa-solid fa-seedling"></i><span>Sostenible</span></div>
+            <div class="pillar"><i class="fa-solid fa-heart"></i><span>Inclusivo</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="testi-header reveal">
+        <span class="section-tag">Lo que dicen</span>
+        <h2>Voces de la <em>comunidad</em></h2>
+      </div>
+      <div class="testi-grid">
+        <div class="testi-card reveal">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"El taller cambió mi semana completa. Vengo los sábados y salgo recargada. Aprendí más de lo que esperaba y además hice amigas increíbles."</p>
+          <div class="testi-author">
+            <div class="testi-avatar"><i class="fa-solid fa-user"></i></div>
+            <div><p class="testi-name">Valentina M.</p><p class="testi-role">Alumna desde 2023</p></div>
+          </div>
+        </div>
+        <div class="testi-card reveal">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Vine al taller express sin saber nada de cerámica y me fui con una pieza hermosa. El ambiente es súper cálido y las profes explican todo con mucha paciencia."</p>
+          <div class="testi-author">
+            <div class="testi-avatar"><i class="fa-solid fa-user"></i></div>
+            <div><p class="testi-name">Lucía B.</p><p class="testi-role">Taller Express</p></div>
+          </div>
+        </div>
+        <div class="testi-card reveal">
+          <div class="testi-stars">★★★★★</div>
+          <p class="testi-text">"Regalé el taller de Cerámica + Vino para el cumple de mi amiga y fue un éxito total. Creativo, divertido y muy bien organizado. ¡Ya lo quiero repetir!"</p>
+          <div class="testi-author">
+            <div class="testi-avatar"><i class="fa-solid fa-user"></i></div>
+            <div><p class="testi-name">Martina G.</p><p class="testi-role">Evento especial</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UBICACIÓN -->
+  <section class="location" id="contacto">
+    <div class="container">
+      <div class="location-grid">
+        <div class="location-info reveal">
+          <span class="section-tag">Dónde encontrarnos</span>
+          <h2>Visitanos en<br /><em>nuestro taller</em></h2>
+          <div class="location-details">
+            <div class="loc-item">
+              <i class="fa-solid fa-location-dot"></i>
+              <div><strong>Dirección</strong><p>Barrio Santa Margarita (zona Av. Alem 2300)</p></div>
+            </div>
+            <div class="loc-item">
+              <i class="fa-solid fa-phone"></i>
+              <div><strong>Teléfono / WhatsApp</strong><p>+54 9 291 468-2284</p></div>
+            </div>
+          </div>
+          <div class="social-links">
+            <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://wa.me/5492914682284" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+          </div>
+        </div>
+        <div class="map-wrap reveal">
+          <iframe src="https://maps.google.com/maps?q=Av.+Alem+2300,+Bahia+Blanca&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación Cerámica ZA"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <span class="logo-icon">◎</span>
+          <span class="logo-text">Cerámica<em>ZA</em></span>
+          <p>Un espacio donde el barro toma forma y la creatividad no tiene límites.</p>
+        </div>
+        <div class="footer-links">
+          <strong>Navegación</strong>
+          <a href="#inicio">Inicio</a>
+          <a href="#nosotros">Sobre Nosotros</a>
+          <a href="#eventos">Cursos</a>
+          <a href="eventos.html">Comunidad &amp; Eventos</a>
+          <a href="#contacto">Contacto</a>
+        </div>
+        <div class="footer-contact">
+          <strong>Contacto</strong>
+          <p><i class="fa-solid fa-location-dot"></i> Barrio Santa Margarita (zona Av. Alem 2300)</p>
+          <p><i class="fa-brands fa-whatsapp"></i> +54 9 291 468-2284</p>
+          <div class="social-links">
+            <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+            <a href="https://wa.me/5492914682284" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+            <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 Cerámica ZA. Todos los derechos reservados.</p>
+        <p>Diseñado con <i class="fa-solid fa-heart"></i> y mucho barro.</p>
+      </div>
+    </div>
+  </footer>
+
+  <div style="background: #111; padding: 15px 20px; text-align: center; font-size: 0.88rem; color: rgba(255,255,255,0.5); font-family: 'Jost', sans-serif; letter-spacing: 0.05em;">
+    Desarrollo web por <a href="https://instagram.com/noda" target="_blank" style="text-decoration: none; font-weight: 500; display: inline-block; transition: transform 0.2s;"><span style="color: #ffffff;">no</span><span style="color: #D4A55A;">da</span></a>
+  </div>
+
+  <a href="https://wa.me/5492914682284?text=Hola%2C%20me%20gustar%C3%ADa%20obtener%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Cer%C3%A1mica%20ZA%20%F0%9F%8F%BA" target="_blank" class="wa-float" aria-label="Contactar por WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+    <span class="wa-tooltip">¡Escribinos!</span>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Eventos — Cerámica ZA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styleE.css" />
+  <style>
+
+    /* ══════════════════════════════════════
+       VARIABLES
+    ══════════════════════════════════════ */
+    :root {
+      --ink:      #1A1008;       /* fondo oscuro principal */
+      --ink-2:    #231508;       /* card oscura */
+      --ink-3:    #2E1C0E;       /* hover oscuro */
+      --terra:    #C9623F;
+      --terra-l:  #E07A55;
+      --terra-d:  #A04E31;
+      --gold:     #D4A55A;       /* acento dorado editorial */
+      --gold-l:   #E8C07A;
+      --cream:    #F5EDD8;
+      --sand:     #E8D5B7;
+      --white:    #FFFFFF;
+      --muted:    rgba(245,237,216,.5);
+      --line:     rgba(245,237,216,.1);
+
+      --ff-d: 'Cormorant Garamond', Georgia, serif;
+      --ff-b: 'Jost', sans-serif;
+      --ease: cubic-bezier(.4,0,.2,1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin:0; padding:0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--ff-b);
+      background: var(--ink);
+      color: var(--cream);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    /* ══════════════════════════════════════
+       NAVBAR
+    ══════════════════════════════════════ */
+    .nav {
+      position: fixed; top:0; left:0; right:0; z-index:200;
+      padding: 20px 48px;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: background .4s var(--ease), padding .4s var(--ease);
+    }
+    .nav.scrolled {
+      background: rgba(26,16,8,.95);
+      backdrop-filter: blur(16px);
+      padding: 14px 48px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav-logo img {
+      height: 52px;
+      width: auto;
+      filter: brightness(1.1);
+      transition: opacity .25s;
+    }
+    .nav-logo img:hover { opacity: .85; }
+
+    .nav-back {
+      font-size: .78rem; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase; color: var(--gold);
+      display: flex; align-items: center; gap: 8px;
+      transition: gap .2s var(--ease), color .2s;
+    }
+    .nav-back:hover { gap: 13px; color: var(--gold-l); }
+
+    /* ══════════════════════════════════════
+       HERO — cinematic full-height
+    ══════════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      padding: 140px 24px 80px;
+      position: relative; overflow: hidden;
+    }
+
+    /* Layered background */
+    .hero-bg {
+      position: absolute; inset:0; z-index:0;
+    }
+    .hero-bg-img {
+      position: absolute; inset:0;
+      background-image: url('https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=1600&q=80');
+      background-size: cover; background-position: center;
+      filter: brightness(.28) saturate(.8);
+    }
+    .hero-bg-gradient {
+      position: absolute; inset:0;
+      background:
+        linear-gradient(to bottom, rgba(26,16,8,.6) 0%, transparent 40%, rgba(26,16,8,.85) 100%),
+        radial-gradient(ellipse 60% 50% at 50% 50%, rgba(201,98,63,.08) 0%, transparent 70%);
+    }
+    /* grain overlay */
+    .hero-bg::after {
+      content:'';
+      position: absolute; inset:0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 180px; pointer-events:none;
+    }
+
+    .hero-content { position:relative; z-index:1; max-width: 800px; }
+
+    .hero-eyebrow {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: .68rem; font-weight: 500; letter-spacing: .22em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 28px;
+    }
+    .hero-eyebrow::before,
+    .hero-eyebrow::after {
+      content:''; display:block;
+      width: 32px; height: 1px; background: var(--gold); opacity:.6;
+    }
+
+    .hero-title {
+      font-family: var(--ff-d);
+      font-size: clamp(3.8rem, 8vw, 7rem);
+      font-weight: 300; line-height: .95;
+      color: var(--cream); margin-bottom: 28px;
+      letter-spacing: -.01em;
+    }
+    .hero-title em {
+      font-style: italic; font-weight: 400;
+      color: var(--terra-l); display: block;
+    }
+
+    .hero-sub {
+      font-size: 1rem; font-weight: 300;
+      color: var(--muted); line-height: 1.85;
+      max-width: 480px; margin: 0 auto 48px;
+    }
+
+    .hero-ctas {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+    }
+
+    .btn-gold {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 34px;
+      background: var(--gold); color: var(--ink);
+      border-radius: 0; font-size: .8rem; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      transition: background .25s, transform .25s;
+    }
+    .btn-gold:hover { background: var(--gold-l); transform: translateY(-2px); }
+
+    .btn-outline {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 34px;
+      background: transparent; color: var(--cream);
+      border: 1px solid rgba(245,237,216,.35);
+      border-radius: 0; font-size: .8rem; font-weight: 400;
+      letter-spacing: .14em; text-transform: uppercase;
+      transition: border-color .25s, color .25s, background .25s;
+    }
+    .btn-outline:hover {
+      border-color: var(--cream);
+      background: rgba(245,237,216,.06);
+    }
+
+    /* Scroll hint */
+    .hero-scroll {
+      position: absolute; bottom: 36px; left: 50%;
+      transform: translateX(-50%); z-index:1;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: var(--muted); font-size: .62rem; letter-spacing: .16em;
+      text-transform: uppercase; animation: bob 2.5s ease-in-out infinite;
+    }
+    .hero-scroll .line {
+      width: 1px; height: 36px; background: var(--gold); opacity: .4;
+    }
+    @keyframes bob {
+      0%,100% { transform: translateX(-50%) translateY(0); }
+      50%      { transform: translateX(-50%) translateY(7px); }
+    }
+
+    /* ══════════════════════════════════════
+       UPCOMING EVENTS — large editorial list
+    ══════════════════════════════════════ */
+    .upcoming {
+      padding: 120px 0 80px;
+      max-width: 1100px; margin: 0 auto;
+      padding-left: 48px; padding-right: 48px;
+    }
+
+    .section-head {
+      display: flex; align-items: flex-end;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 24px; margin-bottom: 0;
+      flex-wrap: wrap; gap: 16px;
+    }
+
+    .section-eyebrow {
+      font-size: .65rem; font-weight: 500; letter-spacing: .2em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: var(--ff-d); font-size: clamp(2.2rem,4vw,3.4rem);
+      font-weight: 300; color: var(--cream); line-height: 1;
+    }
+    .section-title em { font-style: italic; color: var(--terra-l); }
+
+    .events-count {
+      font-size: .72rem; font-weight: 400; letter-spacing: .1em;
+      color: var(--muted); text-transform: uppercase; align-self: flex-end;
+    }
+
+    /* ── Event row ─────────────────────── */
+    .event-row {
+      display: grid;
+      grid-template-columns: 80px 1fr auto;
+      gap: 0;
+      border-bottom: 1px solid var(--line);
+      padding: 36px 0;
+      align-items: center;
+      cursor: default;
+      transition: background .3s var(--ease);
+      position: relative;
+    }
+    .event-row::before {
+      content:'';
+      position: absolute; left:-48px; right:-48px; top:0; bottom:0;
+      background: var(--ink-3); opacity:0;
+      transition: opacity .3s var(--ease);
+      pointer-events: none;
+    }
+    .event-row:hover::before { opacity:1; }
+
+    /* Date block */
+    .row-date {
+      position: relative; z-index:1;
+      display: flex; flex-direction: column; align-items: center;
+      padding-right: 32px; flex-shrink:0;
+    }
+    .row-date .day {
+      font-family: var(--ff-d); font-size: 2.6rem; font-weight: 400;
+      line-height: 1; color: var(--cream);
+    }
+    .row-date .month {
+      font-size: .6rem; font-weight: 500; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--gold); margin-top:2px;
+    }
+
+    /* Info block */
+    .row-info {
+      position: relative; z-index:1;
+      border-left: 1px solid var(--line);
+      padding-left: 32px;
+    }
+
+    .row-type {
+      font-size: .62rem; font-weight: 500; letter-spacing: .15em;
+      text-transform: uppercase; margin-bottom: 8px;
+    }
+    .type-bday  { color: #D4A0C8; }
+    .type-junta { color: #7EC8A0; }
+    .type-taller{ color: var(--gold); }
+    .type-otro  { color: var(--terra-l); }
+
+    .row-name {
+      font-family: var(--ff-d); font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 400; color: var(--cream); line-height: 1.15;
+      margin-bottom: 12px;
+      transition: color .25s;
+    }
+    .event-row:hover .row-name { color: var(--terra-l); }
+
+    .row-meta {
+      display: flex; gap: 20px; flex-wrap: wrap;
+    }
+    .row-meta span {
+      font-size: .74rem; color: var(--muted);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .row-meta i { color: var(--gold); font-size: .68rem; }
+
+    /* Description — expands on hover */
+    .row-desc {
+      font-size: .84rem; color: var(--muted); font-weight: 300;
+      line-height: 1.75; max-height: 0; overflow: hidden;
+      transition: max-height .45s var(--ease), margin .45s var(--ease), opacity .3s;
+      opacity: 0; margin-top:0;
+    }
+    .event-row:hover .row-desc {
+      max-height: 120px; opacity:1; margin-top:14px;
+    }
+
+    /* Attendees */
+    .row-going {
+      display: flex; align-items: center; gap: 4px;
+      margin-top: 14px;
+      max-height: 0; overflow: hidden; opacity:0;
+      transition: max-height .45s var(--ease), opacity .3s .1s;
+    }
+    .event-row:hover .row-going { max-height: 40px; opacity:1; }
+
+    .row-going .av {
+      width: 24px; height: 24px; border-radius: 50%;
+      overflow: hidden; border: 1.5px solid var(--ink);
+      margin-left: -6px; flex-shrink:0;
+    }
+    .row-going .av:first-child { margin-left:0; }
+    .row-going .av img { width:100%; height:100%; object-fit:cover; }
+    .row-going-text {
+      font-size: .7rem; color: var(--muted); margin-left: 8px;
+    }
+    .row-going-text strong { color: var(--cream); }
+
+    /* CTA block */
+    .row-cta {
+      position: relative; z-index:1;
+      padding-left: 40px; flex-shrink:0;
+      display: flex; align-items: center;
+    }
+
+    .btn-confirm {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 24px;
+      background: transparent;
+      border: 1px solid rgba(201,98,63,.5);
+      color: var(--terra-l);
+      font-size: .72rem; font-weight: 500; letter-spacing: .12em;
+      text-transform: uppercase;
+      transition: background .25s, border-color .25s, color .25s, transform .25s;
+      white-space: nowrap;
+    }
+    .btn-confirm:hover {
+      background: var(--terra);
+      border-color: var(--terra);
+      color: var(--white);
+      transform: translateY(-2px);
+    }
+    .btn-confirm i { font-size: .9rem; }
+
+    .btn-past {
+      font-size: .68rem; font-weight: 400; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(245,237,216,.2);
+    }
+
+    /* ══════════════════════════════════════
+       GALLERY STRIP — moodboard between sections
+    ══════════════════════════════════════ */
+    .gallery-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+      height: 340px;
+      margin: 0;
+      overflow: hidden;
+    }
+    .gallery-strip .gimg {
+      overflow: hidden; position: relative;
+    }
+    .gallery-strip .gimg img {
+      width:100%; height:100%; object-fit:cover;
+      filter: brightness(.65) saturate(.7);
+      transition: filter .5s, transform .5s;
+    }
+    .gallery-strip .gimg:hover img {
+      filter: brightness(.8) saturate(1);
+      transform: scale(1.1);
+    }
+
+    /* ══════════════════════════════════════
+       PAST EVENTS — smaller cards
+    ══════════════════════════════════════ */
+    .past-section {
+      padding: 100px 0 120px;
+      max-width: 1100px; margin: 0 auto;
+      padding-left: 48px; padding-right: 48px;
+    }
+
+    .past-section .section-head { margin-bottom: 48px; }
+
+    .past-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2px;
+    }
+
+    .past-card {
+      background: var(--ink-2);
+      padding: 32px 28px;
+      position: relative; overflow: hidden;
+      transition: background .3s;
+    }
+    .past-card:hover { background: var(--ink-3); }
+
+    .past-card::before {
+      content:'';
+      position: absolute; top:0; left:0;
+      width: 2px; height: 0;
+      background: var(--terra);
+      transition: height .4s var(--ease);
+    }
+    .past-card:hover::before { height: 100%; }
+
+    .past-date {
+      font-size: .62rem; font-weight: 500; letter-spacing: .15em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 12px;
+    }
+    .past-name {
+      font-family: var(--ff-d); font-size: 1.3rem; font-weight: 400;
+      color: var(--cream); line-height: 1.2; margin-bottom: 10px;
+    }
+    .past-desc {
+      font-size: .82rem; color: var(--muted); font-weight: 300;
+      line-height: 1.7; margin-bottom: 16px;
+    }
+    .past-meta {
+      display: flex; gap: 14px; flex-wrap: wrap;
+    }
+    .past-meta span {
+      font-size: .7rem; color: rgba(245,237,216,.3);
+      display: flex; align-items: center; gap: 5px;
+    }
+    .past-meta i { color: var(--terra-d); font-size: .65rem; }
+
+    /* ══════════════════════════════════════
+       FULL-WIDTH CTA BANNER
+    ══════════════════════════════════════ */
+    .cta-banner {
+      position: relative; overflow: hidden;
+      padding: 120px 48px;
+      text-align: center;
+    }
+    .cta-banner-bg {
+      position: absolute; inset:0;
+      background-image: url('https://images.unsplash.com/photo-1493106641515-5ff71b496133?w=1600&q=80');
+      background-size: cover; background-position: center;
+      filter: brightness(.2) saturate(.6);
+    }
+    .cta-banner-overlay {
+      position: absolute; inset:0;
+      background: linear-gradient(135deg, rgba(201,98,63,.15) 0%, transparent 60%);
+    }
+    .cta-inner {
+      position: relative; z-index:1;
+      max-width: 640px; margin: 0 auto;
+    }
+    .cta-inner .section-eyebrow { margin-bottom: 16px; }
+    .cta-inner h2 {
+      font-family: var(--ff-d); font-size: clamp(2.4rem,5vw,4rem);
+      font-weight: 300; color: var(--cream); line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .cta-inner h2 em { font-style: italic; color: var(--terra-l); }
+    .cta-inner p {
+      font-size: .92rem; color: var(--muted); font-weight: 300;
+      line-height: 1.85; margin-bottom: 40px;
+    }
+
+    /* ══════════════════════════════════════
+       EMPTY STATE
+    ══════════════════════════════════════ */
+    .empty {
+      padding: 80px 0; text-align: center;
+      border-bottom: 1px solid var(--line);
+    }
+    .empty i { font-size: 2rem; color: var(--line); display: block; margin-bottom: 16px; }
+    .empty p  { font-size: .88rem; color: var(--muted); font-weight: 300; line-height: 1.8; }
+
+    /* ══════════════════════════════════════
+       FOOTER
+    ══════════════════════════════════════ */
+    .footer {
+      background: #110A04;
+      padding: 48px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 20px;
+      border-top: 1px solid var(--line);
+    }
+    .footer-logo img { height: 40px; width: auto; opacity: .7; }
+    .footer-mid {
+      font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+      color: rgba(245,237,216,.3); text-align: center;
+    }
+    .footer-mid a { color: var(--gold); opacity: .7; transition: opacity .2s; }
+    .footer-mid a:hover { opacity: 1; }
+    .footer-right {
+      display: flex; gap: 16px;
+    }
+    .footer-right a {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--muted); font-size: .85rem;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .footer-right a:hover {
+      border-color: var(--terra); color: var(--terra);
+      background: rgba(201,98,63,.08);
+    }
+
+    /* ══════════════════════════════════════
+       WA FLOAT
+    ══════════════════════════════════════ */
+    .wa-float {
+      position: fixed; bottom: 28px; right: 28px; z-index:500;
+      width: 52px; height: 52px; border-radius: 50%;
+      background: #25D366; color: #fff;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.45rem;
+      box-shadow: 0 4px 20px rgba(37,211,102,.35);
+      transition: transform .3s, box-shadow .3s;
+    }
+    .wa-float:hover { transform: scale(1.1) translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,.45); }
+
+    /* ══════════════════════════════════════
+       REVEAL
+    ══════════════════════════════════════ */
+    .reveal { opacity:0; transform:translateY(28px); transition: opacity .65s var(--ease), transform .65s var(--ease); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* ══════════════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════════════ */
+    @media (max-width: 860px) {
+      .upcoming, .past-section { padding-left: 24px; padding-right: 24px; }
+      .event-row { grid-template-columns: 64px 1fr; gap: 0; }
+      .row-cta { display: none; }
+      .event-row { cursor: pointer; }
+      /* show CTA below info on mobile */
+      .row-info { padding-left: 20px; }
+      .row-date { padding-right: 20px; }
+      .gallery-strip { grid-template-columns: 1fr 1fr; height: 240px; }
+      .nav { padding: 16px 24px; }
+      .nav.scrolled { padding: 12px 24px; }
+      .footer { padding: 32px 24px; flex-direction: column; text-align: center; }
+      .cta-banner { padding: 80px 24px; }
+    }
+    @media (max-width: 520px) {
+      .event-row { grid-template-columns: 56px 1fr; }
+      .row-date .day { font-size: 2rem; }
+      .gallery-strip { height: 180px; gap: 2px; }
+      .past-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Navbar white text */
+    .navbar .nav-links a { color: var(--white); }
+    .navbar .logo-text { color: var(--white); }
+    .navbar .logo-text em { color: var(--white); }
+    .navbar.scrolled {
+      background: rgba(26,16,8,.95);
+      backdrop-filter: blur(16px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      border-bottom: 1px solid rgba(245,237,216,.1);
+    }
+    .navbar.scrolled .nav-links a { color: var(--cream); }
+    .navbar.scrolled .logo-text { color: var(--cream); }
+    .navbar.scrolled .logo-text em { color: var(--terra-l); }
+
+    /* Adjust sections for fixed navbar */
+    .gallery-strip { margin-top: 80px; }
+    .cta-banner { margin-top: 80px; }
+    .upcoming { margin-top: 80px; }
+    .past-section { margin-top: 80px; }
+
+  </style>
+</head>
+<body>
+
+  <!-- ════════ NAVBAR ════════ -->
+  <header class="navbar" id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="logo">
+        <img src="logo.jpg" alt="Cerámica ZA Logo" class="logo-img" />
+        <span class="logo-text">Cerámica<em>ZA</em></span>
+      </a>
+      <nav class="nav-links" id="navLinks">
+        <a href="index.html#inicio">Inicio</a>
+        <a href="index.html#nosotros">Sobre Nosotros</a>
+        <a href="eventos.html">Eventos</a>
+        <a href="index.html#contacto">Contacto</a>
+      </nav>
+      <a href="https://wa.me/5492914682284?text=Hola%2C%20quiero%20reservar%20un%20lugar%20en%20Cer%C3%A1mica%20ZA%20%F0%9F%8F%BA" target="_blank" class="btn-reservar">Reservar lugar</a>
+      <button class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ════════ HERO ════════ -->
+  <section class="hero">
+    <div class="hero-bg">
+      <div class="hero-bg-img"></div>
+      <div class="hero-bg-gradient"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Cerámica ZA — Comunidad</div>
+      <h1 class="hero-title">
+        Nuestros<br /><em>eventos</em>
+      </h1>
+      <p class="hero-sub">
+        Cumpleaños, juntadas y encuentros especiales de nuestra comunidad. Mirá qué se viene y anotate.
+      </p>
+      <div class="hero-ctas">
+        <a href="#proximos" class="btn-gold">Ver próximos eventos</a>
+        <a href="https://wa.me/5492914682284?text=Hola%21%20Quiero%20saber%20m%C3%A1s%20sobre%20los%20eventos%20del%20taller%20%F0%9F%8F%BA" target="_blank" class="btn-outline">
+          <i class="fa-brands fa-whatsapp"></i> Consultar
+        </a>
+      </div>
+    </div>
+    <div class="hero-scroll">
+      <div class="line"></div>
+      <span>Scrolleá</span>
+    </div>
+  </section>
+
+  <!-- ════════ GALLERY STRIP ════════ -->
+  <div class="gallery-strip">
+    <div class="gimg"><img src="eventos/1.webp" alt="" /></div>
+    <div class="gimg"><img src="eventos/images (1).jpg" alt="" /></div>
+    <div class="gimg"><img src="eventos/images.jpg" alt="" /></div>
+    <div class="gimg"><img src="eventos/una-compañía-de-tres-animadas-amigas-jóvenes-están-pintando-cerámica-en-un-taller-concepto-estilo-vida-y-personas-309868129.webp" alt="" /></div>
+  </div>
+
+  <!-- ════════ CTA BANNER ════════ -->
+  <div class="cta-banner">
+    <div class="cta-banner-bg"></div>
+    <div class="cta-banner-overlay"></div>
+    <div class="cta-inner reveal">
+      <div class="section-eyebrow">¿Querés organizar el tuyo?</div>
+      <h2>Festejá con<br /><em>Cerámica ZA</em></h2>
+      <p>¿Cumpleaños, despedida, juntada especial? Organizamos el evento en el taller para vos y tus personas. Escribinos y lo armamos juntas.</p>
+      <a href="https://wa.me/5492914682284?text=Hola%21%20Quiero%20organizar%20un%20evento%20en%20el%20taller%20de%20Cer%C3%A1mica%20ZA%20%F0%9F%8F%BA" target="_blank" class="btn-gold">
+        <i class="fa-brands fa-whatsapp"></i> Escribinos por WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- ════════ UPCOMING EVENTS ════════ -->
+  <section class="upcoming" id="proximos">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-eyebrow">Lo que viene</div>
+        <h2 class="section-title">Próximos <em>eventos</em></h2>
+      </div>
+      <span class="events-count" id="upcomingCount"></span>
+    </div>
+
+    <div id="upcomingList"></div>
+  </section>
+
+  <!-- ════════ PAST EVENTS ════════ -->
+  <section class="past-section" id="anteriores">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-eyebrow">Ya pasaron</div>
+        <h2 class="section-title">Eventos <em>anteriores</em></h2>
+      </div>
+    </div>
+    <div class="past-grid" id="pastList"></div>
+  </section>
+
+  <!-- ════════ FOOTER ════════ -->
+  <footer class="footer">
+    <div class="footer-logo">
+      <img src="logo.jpg" alt="Cerámica ZA" />
+    </div>
+    <div class="footer-mid">
+      <p>© 2025 Cerámica ZA — Todos los derechos reservados</p>
+      <p style="margin-top:6px;">
+        <a href="index.html">Inicio</a> &nbsp;·&nbsp;
+        <a href="https://wa.me/5492914682284">WhatsApp</a>
+      </p>
+    </div>
+    <div class="footer-right">
+      <a href="https://instagram.com/ceramica.z.a" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+      <a href="https://wa.me/5492914682284" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+  </footer>
+
+  <div style="background: #111; padding: 15px 20px; text-align: center; font-size: 0.88rem; color: rgba(255,255,255,0.5); font-family: 'Jost', sans-serif; letter-spacing: 0.05em;">
+    Desarrollo web por <a href="https://instagram.com/noda" target="_blank" style="text-decoration: none; font-weight: 500; display: inline-block; transition: transform 0.2s;"><span style="color: #ffffff;">no</span><span style="color: #D4A55A;">da</span></a>
+  </div>
+
+  <!-- WA FLOAT -->
+  <a href="https://wa.me/5492914682284" target="_blank" class="wa-float" aria-label="WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- ════════════════════════════════════════
+       DATOS — EDITÁ ACÁ LOS EVENTOS
+       ════════════════════════════════════════
+       tipo: "bday" | "junta" | "taller" | "otro"
+       mesNum: 0=ene … 11=dic
+  ═══════════════════════════════════════════ -->
+  <script>
+    const EVENTOS = [
+      {
+        nombre:      "🎂 Cumple de Valentina",
+        tipo:        "bday",
+        tipoLabel:   "Cumpleaños",
+        dia: 12,  mes: "Jul",  mesNum: 6,  anio: 2025,
+        hora:        "18:00 hs",
+        lugar:       "Cerámica ZA — Barrio Santa Margarita",
+        descripcion: "¡La Valen cumple años y lo festeja con toda la comunidad del taller! Va a haber torta, música y mucha buena onda. Pasate a festejar con ella.",
+        asistentes:  8,
+        avatares: ["https://i.pravatar.cc/60?img=47","https://i.pravatar.cc/60?img=32","https://i.pravatar.cc/60?img=21"],
+        waMsg: "Hola! Confirmo que voy al cumple de Valentina el 12 de julio 🎂🏺"
+      },
+      {
+        nombre:      "🏺 Tarde de torno libre",
+        tipo:        "taller",
+        tipoLabel:   "Taller abierto",
+        dia: 19,  mes: "Jul",  mesNum: 6,  anio: 2025,
+        hora:        "15:00 – 18:00 hs",
+        lugar:       "Cerámica ZA — Barrio Santa Margarita",
+        descripcion: "Una tarde sin consigna para hacer lo que tenés ganas. Traé tus ideas o venite a improvisar. Café y mate incluidos, buena música garantizada.",
+        asistentes:  5,
+        avatares: ["https://i.pravatar.cc/60?img=12","https://i.pravatar.cc/60?img=55"],
+        waMsg: "Hola! Me anoto para la tarde de torno libre del 19 de julio 🏺"
+      },
+      {
+        nombre:      "🎂 Cumple de Martina",
+        tipo:        "bday",
+        tipoLabel:   "Cumpleaños",
+        dia: 2,   mes: "Ago",  mesNum: 7,  anio: 2025,
+        hora:        "20:00 hs",
+        lugar:       "Cerámica ZA — Barrio Santa Margarita",
+        descripcion: "Marti cumple 30 y lo quiere festejar en el taller con todas las chicas. Noche especial con champagne, música y cerámica.",
+        asistentes:  14,
+        avatares: ["https://i.pravatar.cc/60?img=9","https://i.pravatar.cc/60?img=44","https://i.pravatar.cc/60?img=38"],
+        waMsg: "Hola! Confirmo que voy al cumple de Martina el 2 de agosto 🥂🎂"
+      },
+      {
+        nombre:      "☀️ Juntada de fin de cuatrimestre",
+        tipo:        "junta",
+        tipoLabel:   "Juntada",
+        dia: 16,  mes: "Ago",  mesNum: 7,  anio: 2025,
+        hora:        "17:00 hs",
+        lugar:       "Cerámica ZA — Barrio Santa Margarita",
+        descripcion: "Cerramos el cuatrimestre con una juntada para todas las alumnas. Cada una trae algo para compartir y charlamos sobre lo que creamos juntas estos meses.",
+        asistentes:  20,
+        avatares: ["https://i.pravatar.cc/60?img=3","https://i.pravatar.cc/60?img=17","https://i.pravatar.cc/60?img=60"],
+        waMsg: "Hola! Me apunto a la juntada de fin de cuatrimestre del 16 de agosto ☀️"
+      },
+      {
+        nombre:      "🎂 Cumple de Lucía",
+        tipo:        "bday",
+        tipoLabel:   "Cumpleaños",
+        dia: 21,  mes: "Jun",  mesNum: 5,  anio: 2025,
+        hora:        "19:00 hs",
+        lugar:       "Cerámica ZA — Barrio Santa Margarita",
+        descripcion: "Lu festejó sus 25 con una tarde íntima entre amigas. Mate, buena música y macetitas hechas a mano.",
+        asistentes:  9,
+        avatares: ["https://i.pravatar.cc/60?img=29","https://i.pravatar.cc/60?img=5"],
+        waMsg: ""
+      },
+      {
+        nombre:      "🏺 Workshop de pinchado",
+        tipo:        "taller",
+        tipoLabel:   "Taller abierto",
+        dia: 7,   mes: "Jun",  mesNum: 5,  anio: 2025,
+        hora:        "14:00 – 17:00 hs",
+        lugar:       "Cerámica ZA — Barrio Santa Margarita",
+        descripcion: "Tarde de técnica de pinchado para alumnas de todos los niveles. Cada una se fue con su pieza lista para hornear.",
+        asistentes:  11,
+        avatares: ["https://i.pravatar.cc/60?img=22","https://i.pravatar.cc/60?img=43"],
+        waMsg: ""
+      },
+    ];
+
+    /* ════ RENDER ════ */
+    const hoy = new Date(); hoy.setHours(0,0,0,0);
+
+    const proximos = EVENTOS
+      .filter(e => new Date(e.anio, e.mesNum, e.dia) >= hoy)
+      .sort((a,b) => new Date(a.anio,a.mesNum,a.dia) - new Date(b.anio,b.mesNum,b.dia));
+
+    const pasados = EVENTOS
+      .filter(e => new Date(e.anio, e.mesNum, e.dia) < hoy)
+      .sort((a,b) => new Date(b.anio,b.mesNum,b.dia) - new Date(a.anio,a.mesNum,a.dia));
+
+    const typeClass = { bday:'type-bday', junta:'type-junta', taller:'type-taller', otro:'type-otro' };
+
+    /* Upcoming rows */
+    const upList  = document.getElementById('upcomingList');
+    const upCount = document.getElementById('upcomingCount');
+    upCount.textContent = proximos.length
+      ? `${proximos.length} evento${proximos.length>1?'s':''} próximo${proximos.length>1?'s':''}`
+      : '';
+
+    if (proximos.length === 0) {
+      upList.innerHTML = `
+        <div class="empty">
+          <i class="fa-regular fa-calendar-xmark"></i>
+          <p>No hay eventos próximos por ahora.<br>¡Seguí atenta, pronto se viene algo!</p>
+        </div>`;
+    } else {
+      proximos.forEach((ev, i) => {
+        const url = ev.waMsg
+          ? `https://wa.me/5492914682284?text=${encodeURIComponent(ev.waMsg)}`
+          : '#';
+
+        const avsHtml = ev.avatares.slice(0,3)
+          .map(s=>`<div class="av"><img src="${s}" alt="" loading="lazy"/></div>`)
+          .join('');
+        const extra = ev.asistentes > 3
+          ? `<span style="font-size:.68rem;color:var(--muted);margin-left:4px">+${ev.asistentes-3} más</span>`
+          : '';
+
+        const row = document.createElement('div');
+        row.className = 'event-row reveal';
+        row.style.animationDelay = `${i*60}ms`;
+        row.innerHTML = `
+          <div class="row-date">
+            <span class="day">${ev.dia}</span>
+            <span class="month">${ev.mes}</span>
+          </div>
+          <div class="row-info">
+            <div class="row-type ${typeClass[ev.tipo]||'type-otro'}">${ev.tipoLabel}</div>
+            <div class="row-name">${ev.nombre}</div>
+            <div class="row-meta">
+              <span><i class="fa-regular fa-clock"></i>${ev.hora}</span>
+              <span><i class="fa-solid fa-location-dot"></i>${ev.lugar}</span>
+            </div>
+            <p class="row-desc">${ev.descripcion}</p>
+            <div class="row-going">
+              ${avsHtml}${extra}
+              <span class="row-going-text"><strong>${ev.asistentes}</strong> van a ir</span>
+            </div>
+          </div>
+          <div class="row-cta">
+            <a href="${url}" target="_blank" class="btn-confirm">
+              <i class="fa-brands fa-whatsapp"></i> ¡Me apunto!
+            </a>
+          </div>`;
+
+        /* On mobile tap → open WhatsApp */
+        row.addEventListener('click', (e) => {
+          if (window.innerWidth <= 860 && !e.target.closest('a')) {
+            window.open(url, '_blank');
+          }
+        });
+
+        upList.appendChild(row);
+      });
+    }
+
+    /* Past cards */
+    const pastList = document.getElementById('pastList');
+    if (pasados.length === 0) {
+      pastList.innerHTML = `<p style="font-size:.84rem;color:var(--muted);font-weight:300;">Todavía no hay eventos pasados.</p>`;
+    } else {
+      pasados.forEach((ev, i) => {
+        const card = document.createElement('div');
+        card.className = 'past-card reveal';
+        card.innerHTML = `
+          <div class="past-date">${ev.dia} ${ev.mes} ${ev.anio} &nbsp;·&nbsp; ${ev.tipoLabel}</div>
+          <div class="past-name">${ev.nombre}</div>
+          <p class="past-desc">${ev.descripcion}</p>
+          <div class="past-meta">
+            <span><i class="fa-regular fa-clock"></i>${ev.hora}</span>
+            <span><i class="fa-solid fa-user-group"></i>${ev.asistentes} personas</span>
+          </div>`;
+        pastList.appendChild(card);
+      });
+    }
+
+    /* ════ NAVBAR SCROLL ════ */
+    const nav = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (nav) nav.classList.toggle('scrolled', window.scrollY > 50);
+    }, { passive: true });
+
+    /* ════ REVEAL ════ */
+    const ro = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const sibs = [...e.target.parentElement.querySelectorAll('.reveal:not(.visible)')];
+        const delay = sibs.indexOf(e.target) * 80;
+        setTimeout(() => e.target.classList.add('visible'), Math.max(0, delay));
+        ro.unobserve(e.target);
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+  </script>
+
+</body>
+</html>
