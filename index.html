@@ -3,28 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Cerámica ZA — Espacio de Arte y Cerámica</title>
+  <title>Cerámica ZA — Taller de Cerámica</title>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <meta name="description" content="Cerámica ZA es un taller de cerámica en Bahía Blanca. Descubrí cursos, eventos creativos y espacios para aprender y crear con tus manos." />
+  <meta property="og:title" content="Cerámica ZA — Taller de Cerámica" />
+  <meta property="og:description" content="Cerámica ZA es un taller de cerámica en Bahía Blanca. Descubrí cursos, eventos creativos y espacios para aprender y crear con tus manos." />
+  <meta property="og:type" content="website" />
   <link rel="stylesheet" href="styles.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,600&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    .stats-strip { background: var(--brown); padding: 40px 0; }
-    .stats-grid { display: grid; grid-template-columns: repeat(4,1fr); text-align: center; }
-    .stat-item { padding: 0 24px; border-right: 1px solid rgba(255,255,255,.12); }
-    .stat-item:last-child { border-right: none; }
-    .stat-num { font-family: var(--ff-display); font-size: 2.8rem; font-weight: 600; color: var(--terracotta-l); line-height: 1; display: block; }
-    .stat-label { font-size: .73rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-top: 8px; display: block; }
+    .stats-strip { display: none; }
+    .stats-grid { display: none; }
+    .stat-item { display: none; }
+    .stat-num { display: none; }
+    .stat-label { display: none; }
 
     .testimonials { padding: 100px 0; background: var(--cream); }
-    .testi-header { text-align: center; margin-bottom: 52px; }
+    .testi-header { text-align: center; margin-bottom: 36px; }
+    .testi-note { font-size: .85rem; color: var(--text-light); margin-top: 10px; }
     .testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; }
-    .testi-card { background: var(--white); border-radius: 20px; padding: 32px; box-shadow: var(--shadow-card); transition: transform var(--transition), box-shadow var(--transition); }
+    .testi-card { display: flex; flex-direction: column; background: var(--white); border-radius: 20px; padding: 32px; box-shadow: var(--shadow-card); transition: transform var(--transition), box-shadow var(--transition); min-height: 400px; }
     .testi-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
     .testi-stars { color: var(--terracotta); font-size: .85rem; margin-bottom: 18px; letter-spacing: 2px; }
-    .testi-text { font-family: var(--ff-display); font-size: 1.1rem; font-style: italic; color: var(--brown); line-height: 1.75; margin-bottom: 24px; }
-    .testi-author { display: flex; align-items: center; gap: 12px; }
+    .testi-text { font-family: var(--ff-body); font-size: 0.95rem; font-style: italic; color: var(--brown); line-height: 1.65; margin-bottom: 24px; flex-grow: 1; }
+    .testi-author { display: flex; align-items: center; gap: 12px; margin-top: auto; }
     .testi-avatar { width: 44px; height: 44px; border-radius: 50%; overflow: hidden; flex-shrink: 0; border: 2px solid var(--sand); background: var(--sand-l); display: flex; align-items: center; justify-content: center; color: var(--terracotta); font-size: 1.1rem; }
     .testi-name { font-size: .85rem; font-weight: 500; color: var(--brown); }
     .testi-role { font-size: .73rem; color: var(--text-light); font-weight: 300; }
@@ -34,10 +39,6 @@
     .btn-all-events:hover { background: var(--terracotta); color: var(--white); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,98,63,.3); }
 
     @media (max-width: 960px) {
-      .stats-grid { grid-template-columns: repeat(2,1fr); gap: 24px; }
-      .stat-item { border-right: none; padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,.12); }
-      .stat-item:nth-child(odd) { border-right: 1px solid rgba(255,255,255,.12); }
-      .stat-item:nth-child(3), .stat-item:nth-child(4) { border-bottom: none; }
       .testi-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
     }
 
@@ -55,10 +56,101 @@
     .indicator.active { background: var(--white); }
 
     /* Site title */
-    .site-title { font-family: var(--ff-display); font-size: 2.5rem; font-weight: 400; color: var(--brown); text-align: center; margin-bottom: 10px; }
+    .site-title { font-family: var(--ff-display); font-size: 2.5rem; font-weight: 600; letter-spacing: .02em; color: var(--brown); text-align: center; margin-bottom: 10px; }
+    .site-title em { font-style: italic; color: var(--terracotta); }
+    /* ── Loader screen ───────────────────────────── */
+  #za-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--cream);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 36px;
+    /* Sale con fade */
+    transition: opacity .45s ease;
+  }
+ 
+  #za-loader.za-hide {
+    opacity: 0;
+    pointer-events: none;
+  }
+ 
+  /* Logo dentro del loader */
+  #za-loader-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    /* Esta transición es la que lo hace "volar" al navbar */
+    transition: transform .75s cubic-bezier(.4,0,.2,1),
+                opacity   .45s ease .15s;
+    transform-origin: center center;
+    will-change: transform, opacity;
+  }
+ 
+  #za-loader-logo .za-logo-img {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+    border-radius: 10px;
+  }
+ 
+  #za-loader-logo .za-logo-text {
+    font-family: var(--ff-display);
+    font-size: 2rem;
+    font-weight: 600;
+    color: var(--brown);
+    letter-spacing: .02em;
+  }
+ 
+  #za-loader-logo .za-logo-text em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+ 
+  /* Barra de progreso */
+  #za-bar-wrap {
+    width: 200px;
+    height: 2px;
+    background: rgba(201,98,63,.15);
+    border-radius: 2px;
+    overflow: hidden;
+    transition: opacity .3s ease;
+  }
+ 
+  #za-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--terracotta);
+    border-radius: 2px;
+    /* Sin transition — se maneja por JS para que sea suave */
+  }
+ 
+  /* Evita que el contenido de abajo sea visible mientras carga */
+  body.za-loading {
+    overflow: hidden;
+  }
   </style>
 </head>
 <body>
+  <!-- ════════════════════════════════
+     2. HTML — pegá justo después de <body>
+════════════════════════════════ -->
+<div id="za-loader" aria-hidden="true" role="presentation">
+ 
+  <div id="za-loader-logo">
+    <!-- Mismo logo que el navbar -->
+    <img src="logo.jpg" alt="" class="za-logo-img" />
+    <span class="za-logo-text">Cerámica<em>ZA</em></span>
+  </div>
+ 
+  <div id="za-bar-wrap">
+    <div id="za-bar"></div>
+  </div>
+ 
+</div>
 
   <!-- NAVBAR -->
   <header class="navbar" id="navbar">
@@ -73,7 +165,7 @@
         <a href="eventos.html">Eventos</a>
         <a href="#contacto">Contacto</a>
       </nav>
-      <a href="https://wa.me/5492914682284?text=Hola%2C%20quiero%20reservar%20un%20lugar%20en%20Cer%C3%A1mica%20ZA%20%F0%9F%8F%BA" target="_blank" class="btn-reservar">Reservar lugar</a>
+        <a href="https://wa.me/5492914682284?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Cer%C3%A1mica%20ZA" target="_blank" class="btn-reservar">Más info</a>
       <button class="hamburger" id="hamburger" aria-label="Menú" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
@@ -83,12 +175,12 @@
   <!-- HERO -->
   <section class="hero" id="inicio">
     <div class="hero-bg"><div class="hero-texture"></div></div>
-    <div class="hero-content reveal">      <h1 class="site-title">Cerámica<em>ZA</em></h1>      <span class="hero-tag">Taller de cerámica &amp; arte artesanal ♡</span>
-      <h1 class="hero-title">Creá con<br /><em>tus manos</em></h1>
-      <p class="hero-sub">Un lugar donde el barro toma forma y las ideas cobran vida.<br />Cursos, talleres y experiencias únicas para todos los niveles.</p>
+    <div class="hero-content reveal">      <h1 class="site-title">Cerámica<em>ZA</em></h1>      <span class="hero-tag">Taller de cerámica</span>
+      <h2 class="hero-title">Crea con<br /><em>tus manos</em></h2>
+      <p class="hero-sub">Un espacio donde el barro toma forma y las ideas cobran vida.<br />Cursos, talleres y experiencias de cerámica para todos los niveles.</p>
       <div class="hero-ctas">
 
-        <a href="https://wa.me/5492914682284?text=Hola%2C%20quiero%20reservar%20un%20lugar%20%F0%9F%8F%BA" target="_blank" class="btn-secondary">Reservar lugar</a>
+        <a href="https://wa.me/5492914682284?text=Hola%2C%20quiero%20m%C3%A1s%20info%20sobre%20Cer%C3%A1mica%20ZA" target="_blank" class="btn-secondary">Más info</a>
       </div>
     </div>
     <div class="hero-shapes">
@@ -97,22 +189,10 @@
       <div class="shape shape-3"></div>
     </div>
     <div class="hero-scroll-hint">
-      <span>Deslizá</span>
+      <span>Desliza</span>
       <i class="fa-solid fa-chevron-down"></i>
     </div>
   </section>
-
-  <!-- STATS -->
-  <div class="stats-strip">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-item reveal"><span class="stat-num">+5</span><span class="stat-label">Años de experiencia</span></div>
-        <div class="stat-item reveal"><span class="stat-num">300+</span><span class="stat-label">Alumnas formadas</span></div>
-        <div class="stat-item reveal"><span class="stat-num">12</span><span class="stat-label">Cursos activos</span></div>
-        <div class="stat-item reveal"><span class="stat-num">100%</span><span class="stat-label">Artesanal</span></div>
-      </div>
-    </div>
-  </div>
 
   <!-- SOBRE NOSOTROS -->
   <section class="about" id="nosotros">
@@ -136,18 +216,14 @@
               </div>
             </div>
           </div>
-          <div class="about-img-badge">
-            <span>+5 años</span>
-            <small>de experiencia</small>
-          </div>
         </div>
         <div class="about-text reveal">
           <span class="section-tag">Quiénes somos</span>
-          <h2>Un espacio donde el arte<br /><em>toma forma</em></h2>
-          <p>Cerámica ZA nació del amor por lo artesanal y la necesidad de crear espacios de encuentro donde las personas puedan desconectarse del ruido cotidiano y conectarse con algo más profundo: sus manos, los materiales, el presente.</p>
-          <p>Ofrecemos cursos para principiantes y avanzadas, talleres de un día, y eventos especiales donde la cerámica es el pretexto para compartir, aprender y crear algo único.</p>
+          <h2>Un espacio donde la cerámica<br /><em>toma forma</em></h2>
+          <p>Cerámica ZA nació del amor por el barro y la necesidad de ofrecer un taller donde puedas aprender cerámica con tus manos, en un ambiente cálido y relajado.</p>
+          <p>Ofrecemos cursos para principiantes y avanzadas, talleres de un día y experiencias guiadas que enseñan el oficio de la cerámica con práctica, sin adornos innecesarios.</p>
           <div class="about-pillars">
-            <div class="pillar"><i class="fa-solid fa-hands"></i><span>Artesanal</span></div>
+            <div class="pillar"><i class="fa-solid fa-hands"></i><span>Hecho a mano</span></div>
             <div class="pillar"><i class="fa-solid fa-seedling"></i><span>Sostenible</span></div>
             <div class="pillar"><i class="fa-solid fa-heart"></i><span>Inclusivo</span></div>
           </div>
@@ -162,32 +238,58 @@
       <div class="testi-header reveal">
         <span class="section-tag">Lo que dicen</span>
         <h2>Voces de la <em>comunidad</em></h2>
+        <p class="testi-note">Opiniones reales de Google</p>
       </div>
-      <div class="testi-grid">
-        <div class="testi-card reveal">
+      <div class="testi-grid" role="list">
+        <div class="testi-card reveal" role="listitem">
           <div class="testi-stars">★★★★★</div>
-          <p class="testi-text">"El taller cambió mi semana completa. Vengo los sábados y salgo recargada. Aprendí más de lo que esperaba y además hice amigas increíbles."</p>
+          <p class="testi-text">"Excelente lugar...aprendemos cerámica y conocemos gente linda"</p>
           <div class="testi-author">
-            <div class="testi-avatar"><i class="fa-solid fa-user"></i></div>
-            <div><p class="testi-name">Valentina M.</p><p class="testi-role">Alumna desde 2023</p></div>
+            <div class="testi-avatar"><i class="fa-solid fa-user" aria-hidden="true"></i></div>
+            <div><p class="testi-name">Cristina Leaño</p><p class="testi-role">Reseña de Google</p></div>
           </div>
         </div>
-        <div class="testi-card reveal">
+        <div class="testi-card reveal" role="listitem">
           <div class="testi-stars">★★★★★</div>
-          <p class="testi-text">"Vine al taller express sin saber nada de cerámica y me fui con una pieza hermosa. El ambiente es súper cálido y las profes explican todo con mucha paciencia."</p>
+          <p class="testi-text">"Los profes son super atentos, muy serviciales, cada paso que das es una ayuda y vas aprendiendo en el proceso. La clase tiene una duración de 2 hs, incluso se extiende para terminar con las piezas. Una variedad hermosa de engobes, herramientas, cortantes, letras, moldes y me quedó corta con tantos materiales. El taller cuenta con horno propio."</p>
           <div class="testi-author">
-            <div class="testi-avatar"><i class="fa-solid fa-user"></i></div>
-            <div><p class="testi-name">Lucía B.</p><p class="testi-role">Taller Express</p></div>
+            <div class="testi-avatar"><i class="fa-solid fa-user" aria-hidden="true"></i></div>
+            <div><p class="testi-name">Luli Gnocchi</p><p class="testi-role">Reseña de Google</p></div>
           </div>
         </div>
-        <div class="testi-card reveal">
+        <div class="testi-card reveal" role="listitem">
           <div class="testi-stars">★★★★★</div>
-          <p class="testi-text">"Regalé el taller de Cerámica + Vino para el cumple de mi amiga y fue un éxito total. Creativo, divertido y muy bien organizado. ¡Ya lo quiero repetir!"</p>
+          <p class="testi-text">"Un lugar increíble! Donde se hacen cosas hermosas!"</p>
           <div class="testi-author">
-            <div class="testi-avatar"><i class="fa-solid fa-user"></i></div>
-            <div><p class="testi-name">Martina G.</p><p class="testi-role">Evento especial</p></div>
+            <div class="testi-avatar"><i class="fa-solid fa-user" aria-hidden="true"></i></div>
+            <div><p class="testi-name">Sebastián Noé</p><p class="testi-role">Reseña de Google</p></div>
           </div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="faq reveal">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <div class="section-eyebrow">Preguntas frecuentes</div>
+          <h2 class="section-title">Consultas <em>comunes</em></h2>
+        </div>
+      </div>
+      <div class="faq-grid">
+        <details>
+          <summary>¿Necesito experiencia previa para participar?</summary>
+          <p>No. Los eventos y talleres de Cerámica ZA están diseñados para todas, desde quienes arrancan hasta personas con experiencia. Traé ganas de crear.</p>
+        </details>
+        <details>
+          <summary>¿Está todo el material incluido?</summary>
+          <p>Sí, la mayoría de los eventos incluyen barro, esmaltes y herramientas. Consultá por eventos especiales si preferís una experiencia personalizada.</p>
+        </details>
+        <details>
+          <summary>¿Cuánto dura cada encuentro?</summary>
+          <p>Los talleres suelen durar entre 2 y 3 horas según el plan. En el listado de próximos eventos está el horario exacto de cada uno.</p>
+        </details>
       </div>
     </div>
   </section>
@@ -202,7 +304,7 @@
           <div class="location-details">
             <div class="loc-item">
               <i class="fa-solid fa-location-dot"></i>
-              <div><strong>Dirección</strong><p>Barrio Santa Margarita (zona Av. Alem 2300)</p></div>
+              <div><strong>Dirección</strong><p>Apolinar Bañuelos 2317, B8000 Bahía Blanca, Provincia de Buenos Aires</p></div>
             </div>
             <div class="loc-item">
               <i class="fa-solid fa-phone"></i>
@@ -212,11 +314,10 @@
           <div class="social-links">
             <a href="https://instagram.com" target="_blank" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
             <a href="https://wa.me/5492914682284" target="_blank" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
-            <a href="https://facebook.com" target="_blank" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
           </div>
         </div>
         <div class="map-wrap reveal">
-          <iframe src="https://maps.google.com/maps?q=Av.+Alem+2300,+Bahia+Blanca&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación Cerámica ZA"></iframe>
+          <iframe src="https://maps.google.com/maps?q=Apolinar+Ba%C3%B1uelos+2317,+Bah%C3%ADa+Blanca&t=&z=15&ie=UTF8&iwloc=&output=embed" width="100%" height="420" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Ubicación Cerámica ZA"></iframe>
         </div>
       </div>
     </div>
@@ -241,12 +342,11 @@
         </div>
         <div class="footer-contact">
           <strong>Contacto</strong>
-          <p><i class="fa-solid fa-location-dot"></i> Barrio Santa Margarita (zona Av. Alem 2300)</p>
+          <p><i class="fa-solid fa-location-dot"></i> Apolinar Bañuelos 2317, Bahía Blanca</p>
           <p><i class="fa-brands fa-whatsapp"></i> +54 9 291 468-2284</p>
           <div class="social-links">
             <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
             <a href="https://wa.me/5492914682284" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
-            <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
           </div>
         </div>
       </div>
@@ -267,5 +367,86 @@
   </a>
 
   <script src="script.js"></script>
+  <script>
+(function () {
+  'use strict';
+ 
+  const loader    = document.getElementById('za-loader');
+  const loaderLogo= document.getElementById('za-loader-logo');
+  const barWrap   = document.getElementById('za-bar-wrap');
+  const bar       = document.getElementById('za-bar');
+ 
+  // Logo real del navbar (el <a class="logo"> del header)
+  const navLogo   = document.querySelector('.navbar .logo');
+ 
+  document.body.classList.add('za-loading');
+ 
+  /* ── 1. Barra de progreso ────────────────────── */
+  let progress = 0;
+ 
+  const interval = setInterval(() => {
+    // Velocidad variable: arranca rápido, frena en el medio,
+    // termina cuando la página cargó del todo
+    const speed = progress < 25  ? 4
+                : progress < 60  ? 1.5
+                : progress < 88  ? 2
+                : 0.4;
+ 
+    progress = Math.min(98, progress + speed); // Para en 98 hasta que carga
+    bar.style.width = progress + '%';
+  }, 40);
+ 
+  /* ── 2. Cuando la página cargó del todo ─────── */
+  window.addEventListener('load', () => {
+    // Completar la barra
+    clearInterval(interval);
+    bar.style.transition = 'width .3s ease';
+    bar.style.width = '100%';
+ 
+    // Esperar un momento con la barra llena
+    setTimeout(flyToNavbar, 420);
+  });
+ 
+  /* ── 3. Animación: logo vuela al navbar ─────── */
+  function flyToNavbar() {
+    // Fade out la barra
+    barWrap.style.opacity = '0';
+ 
+    // Calcular dónde está el logo del loader ahora
+    const fromRect = loaderLogo.getBoundingClientRect();
+ 
+    // Calcular dónde está el logo del navbar
+    const toRect   = navLogo.getBoundingClientRect();
+ 
+    // Cuánto tiene que moverse y achicarse
+    const dx    = toRect.left - fromRect.left + (toRect.width  - fromRect.width)  / 2;
+    const dy    = toRect.top  - fromRect.top  + (toRect.height - fromRect.height) / 2;
+    const scale = toRect.width / fromRect.width;
+ 
+    // Aplicar la animación
+    loaderLogo.style.transform = `translate(${dx}px, ${dy}px) scale(${scale})`;
+    loaderLogo.style.opacity   = '0';
+ 
+    // Cuando termina la animación del logo, ocultar el loader
+    setTimeout(() => {
+      loader.classList.add('za-hide');
+      document.body.classList.remove('za-loading');
+ 
+      // Remover el loader del DOM para que no interfiera
+      setTimeout(() => loader.remove(), 500);
+    }, 600);
+  }
+ 
+  /* ── Fallback: si tarda más de 6s igual cierra ─ */
+  setTimeout(() => {
+    if (document.body.classList.contains('za-loading')) {
+      clearInterval(interval);
+      bar.style.width = '100%';
+      setTimeout(flyToNavbar, 300);
+    }
+  }, 6000);
+ 
+})();
+</script>
 </body>
 </html>

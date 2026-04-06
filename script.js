@@ -148,12 +148,13 @@ highlightNavLink();
 
 
 /* ── Carrusel de fotos ─────────────────────────────── */
-let currentSlide = 0;
 const carouselContainer = document.querySelector('.carousel-container');
 const carouselImgs = document.querySelectorAll('.carousel-img');
 const indicators = document.querySelectorAll('.indicator');
 const prevBtn = document.querySelector('.prev');
 const nextBtn = document.querySelector('.next');
+let currentSlide = 0;
+let carouselInterval;
 
 function updateCarousel() {
   carouselContainer.style.transform = `translateX(-${currentSlide * 100}%)`;
@@ -165,19 +166,38 @@ function updateCarousel() {
   });
 }
 
-prevBtn.addEventListener('click', () => {
-  currentSlide = (currentSlide - 1 + carouselImgs.length) % carouselImgs.length;
-  updateCarousel();
-});
+function startCarouselAuto() {
+  if (carouselInterval) clearInterval(carouselInterval);
+  carouselInterval = setInterval(() => {
+    currentSlide = (currentSlide + 1) % carouselImgs.length;
+    updateCarousel();
+  }, 5200);
+}
 
-nextBtn.addEventListener('click', () => {
-  currentSlide = (currentSlide + 1) % carouselImgs.length;
-  updateCarousel();
-});
+function stopCarouselAuto() {
+  if (carouselInterval) clearInterval(carouselInterval);
+}
 
-indicators.forEach((ind, i) => {
-  ind.addEventListener('click', () => {
-    currentSlide = i;
+if (carouselContainer && carouselImgs.length && indicators.length && prevBtn && nextBtn) {
+  prevBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide - 1 + carouselImgs.length) % carouselImgs.length;
     updateCarousel();
   });
-});
+
+  nextBtn.addEventListener('click', () => {
+    currentSlide = (currentSlide + 1) % carouselImgs.length;
+    updateCarousel();
+  });
+
+  indicators.forEach((ind, i) => {
+    ind.addEventListener('click', () => {
+      currentSlide = i;
+      updateCarousel();
+    });
+  });
+
+  carouselContainer.addEventListener('mouseenter', stopCarouselAuto);
+  carouselContainer.addEventListener('mouseleave', startCarouselAuto);
+  updateCarousel();
+  startCarouselAuto();
+}
