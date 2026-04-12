@@ -56,6 +56,14 @@ if (upList) {
         ? `<span style="font-size:.68rem;color:var(--muted);margin-left:4px">+${ev.asistentes - 3} más</span>`
         : '';
 
+      const mobileBtn = ev.waMsg
+        ? `<div class="row-wa-mobile">
+             <a href="${url}" target="_blank" class="btn-confirm-mobile">
+               <i class="fa-brands fa-whatsapp"></i> ¡Me apunto!
+             </a>
+           </div>`
+        : '';
+
       const row = document.createElement('div');
       row.className = 'event-row reveal';
       row.style.animationDelay = `${i * 60}ms`;
@@ -81,7 +89,8 @@ if (upList) {
           <a href="${url}" target="_blank" class="btn-confirm">
             <i class="fa-brands fa-whatsapp"></i> ¡Me apunto!
           </a>
-        </div>`;
+        </div>
+        ${mobileBtn}`;
 
       row.addEventListener('click', (e) => {
         if (window.innerWidth <= 860 && !e.target.closest('a')) {

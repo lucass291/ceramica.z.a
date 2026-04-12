@@ -949,6 +949,18 @@ details p {
 
   .hamburger { display: flex; }
 
+  /* Hamburger → X when open */
+  .hamburger[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+  .hamburger[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+  .hamburger[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
   /* Mobile nav open state */
   .nav-links.open {
     display: flex;
@@ -959,7 +971,13 @@ details p {
     align-items: center;
     justify-content: center;
     gap: 36px;
-    z-index: 900;
+    z-index: 1100;   /* above navbar (1000) */
+    animation: menuFadeIn .25s ease forwards;
+  }
+
+  @keyframes menuFadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
 
   .nav-links.open a {
@@ -967,7 +985,12 @@ details p {
     font-size: 2rem;
     font-weight: 400;
     color: var(--brown);
+    transition: color .2s;
   }
+  .nav-links.open a:hover { color: var(--terracotta); }
+
+  /* Hamburger sits above the open menu */
+  .hamburger { z-index: 1200; position: relative; }
 
   .hero-content { padding-left: 0; }
 

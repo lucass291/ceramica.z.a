@@ -555,24 +555,138 @@
        RESPONSIVE
     ══════════════════════════════════════ */
     @media (max-width: 860px) {
-      .upcoming, .past-section { padding-left: 24px; padding-right: 24px; }
-      .event-row { grid-template-columns: 64px 1fr; gap: 0; }
-      .row-cta { display: none; }
-      .event-row { cursor: pointer; }
-      /* show CTA below info on mobile */
-      .row-info { padding-left: 20px; }
-      .row-date { padding-right: 20px; }
-      .gallery-strip { grid-template-columns: 1fr 1fr; height: 240px; }
+      .upcoming, .past-section { padding-left: 20px; padding-right: 20px; }
       .nav { padding: 16px 24px; }
       .nav.scrolled { padding: 12px 24px; }
-      .footer { padding: 32px 24px; flex-direction: column; text-align: center; }
-      .cta-banner { padding: 80px 24px; }
+      .footer { padding: 32px 24px; flex-direction: column; text-align: center; gap: 14px; }
+      .cta-banner { padding: 72px 24px; }
+
+      /* Event rows: stack date + info, hide desktop CTA column */
+      .event-row {
+        grid-template-columns: 64px 1fr;
+        grid-template-rows: auto auto;
+        gap: 0;
+        cursor: pointer;
+        padding: 28px 0;
+      }
+      .row-cta { display: none; }
+      .row-info { padding-left: 20px; }
+      .row-date { padding-right: 20px; }
+
+      /* Always show description on mobile (no hover needed) */
+      .row-desc {
+        max-height: none !important;
+        opacity: 1 !important;
+        margin-top: 10px !important;
+        overflow: visible !important;
+      }
+
+      /* Always show attendees on mobile */
+      .row-going {
+        max-height: none !important;
+        opacity: 1 !important;
+        overflow: visible !important;
+      }
+
+      /* Mobile WA button below the row info */
+      .row-wa-mobile {
+        grid-column: 2;
+        padding-left: 20px;
+        margin-top: 16px;
+      }
+      .btn-confirm-mobile {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 11px 22px;
+        background: #25D366;
+        color: #fff;
+        border-radius: 50px;
+        font-size: .78rem;
+        font-weight: 500;
+        letter-spacing: .04em;
+        box-shadow: 0 3px 14px rgba(37,211,102,.3);
+        transition: background .25s, transform .25s;
+        white-space: nowrap;
+        text-decoration: none;
+      }
+      .btn-confirm-mobile:hover {
+        background: #1ebe5a;
+        transform: translateY(-2px);
+      }
+      .btn-confirm-mobile i { font-size: .9rem; }
+
+      /* Gallery: horizontal scroll strip on mobile */
+      .gallery-strip {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        height: 220px;
+        gap: 3px;
+        grid-template-columns: unset;
+      }
+      .gallery-strip::-webkit-scrollbar { display: none; }
+      .gallery-strip .gimg {
+        flex: 0 0 72vw;
+        max-width: 300px;
+        scroll-snap-align: start;
+      }
+      .gallery-strip .gimg:first-child { margin-left: 0; }
     }
-    @media (max-width: 520px) {
-      .event-row { grid-template-columns: 56px 1fr; }
-      .row-date .day { font-size: 2rem; }
-      .gallery-strip { height: 180px; gap: 2px; }
-      .past-grid { grid-template-columns: 1fr; }
+
+    @media (max-width: 640px) {
+      /* Hero: reduce height so scroll hint is always visible */
+      .hero {
+        min-height: 88vh;
+        padding: 100px 20px 24px;
+        justify-content: flex-start;
+        align-items: flex-start;
+      }
+      .hero-content { max-width: 100%; }
+      .hero-title { font-size: clamp(2.8rem, 11vw, 4.5rem); }
+
+      /* Hero CTAs: stack vertically, full width */
+      .hero-ctas {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+      }
+      .btn-gold, .btn-outline {
+        width: 100%;
+        justify-content: center;
+        padding: 14px 20px;
+        font-size: .82rem;
+      }
+
+      /* Section titles smaller */
+      .section-title { font-size: clamp(1.9rem, 6vw, 2.6rem); }
+
+      /* Event row adjustments */
+      .event-row { grid-template-columns: 52px 1fr; }
+      .row-date .day { font-size: 1.9rem; }
+      .row-name { font-size: clamp(1.1rem, 4.5vw, 1.5rem); }
+      .row-meta { gap: 10px; }
+
+      /* Past grid single column */
+      .past-grid { grid-template-columns: 1fr; gap: 2px; }
+
+      /* CTA banner */
+      .cta-inner h2 { font-size: clamp(2rem, 7vw, 2.8rem); }
+      .cta-inner p { font-size: .86rem; }
+
+      /* Footer row layout */
+      .footer-mid, .footer-right { text-align: center; }
+      .footer-right { justify-content: center; }
+
+      /* WA float closer to edge */
+      .wa-float { bottom: 18px; right: 16px; width: 48px; height: 48px; font-size: 1.3rem; }
+    }
+
+    @media (max-width: 400px) {
+      .hero-title { font-size: clamp(2.4rem, 10vw, 3.5rem); }
+      .gallery-strip .gimg { flex: 0 0 85vw; }
+      .row-date .day { font-size: 1.7rem; }
     }
 
     /* Navbar colors like home page */
